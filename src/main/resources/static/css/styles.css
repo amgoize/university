@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5ed;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #000000;
+    padding: 10px 20px;
+}
+
+.site-header .logo img {
+    width: 150px;
+    height: auto;
+}
+
+.main-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.main-nav ul li {
+    display: inline;
+}
+
+.main-nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+a {
+    margin-top: 20px;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.71);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.centered-image {
+    display: block;
+    max-width: 300px;
+    height: auto;
+    border: 1px solid #ddd;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Высота контейнера равна высоте видимой части окна */
+}

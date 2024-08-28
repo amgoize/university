@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Group</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="logo">
+    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a th:href="@{/}">Main</a></li>
+            <li><a th:href="@{/teachers}">Teachers</a></li>
+            <li><a th:href="@{/groups}">Groups</a></li>
+            <li><a th:href="@{/students}">Students</a></li>
+            <li><a th:href="@{/road/graph}">Road</a></li>
+        </ul>
+    </nav>
+</header>
+<h1>Create Group</h1>
+<form th:action="@{/groups/create}" th:object="${group}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" />
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+    <button type="submit">Create</button>
+</form>
+<a th:href="@{/groups}">Back to List</a>
+</body>
+</html>

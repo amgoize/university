@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Student</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="logo">
+    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a th:href="@{/}">Main</a></li>
+            <li><a th:href="@{/teachers}">Teachers</a></li>
+            <li><a th:href="@{/groups}">Groups</a></li>
+            <li><a th:href="@{/students}">Students</a></li>
+            <li><a th:href="@{/road/graph}">Road</a></li>
+        </ul>
+    </nav>
+</header>
+<h1>Create Student</h1>
+<form th:action="@{/students/create}" th:object="${student}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" />
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+    <label for="surname">Surname:</label>
+    <input type="text" id="surname" th:field="*{surname}" />
+    <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+
+    <label for="patronymic">Patronymic:</label>
+    <input type="text" id="patronymic" th:field="*{patronymic}" />
+    <span th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></span>
+
+    <label for="group">Group:</label>
+    <input type="number" id="group" th:field="*{group}" />
+    <span th:if="${#fields.hasErrors('group')}" th:errors="*{group}"></span>
+
+    <button type="submit">Create</button>
+</form>
+<a href="/students">Back to List</a>
+</body>
+</html>

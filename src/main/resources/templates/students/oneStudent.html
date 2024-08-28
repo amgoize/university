@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Details</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="logo">
+    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a th:href="@{/}">Main</a></li>
+            <li><a th:href="@{/teachers}">Teachers</a></li>
+            <li><a th:href="@{/groups}">Groups</a></li>
+            <li><a th:href="@{/students}">Students</a></li>
+            <li><a th:href="@{/road/graph}">Road</a></li>
+        </ul>
+    </nav>
+</header>
+<h1>Student Details</h1>
+<p>Name: <span th:text="${student.name}"></span></p>
+<p>Surname: <span th:text="${student.surname}"></span></p>
+<p>Patronymic: <span th:text="${student.patronymic}"></span></p>
+<p>Group: <span th:text="${student.group}"></span></p>
+<a th:href="@{'/students/edit/' + ${student.id}}">Edit</a>
+<a th:href="@{'/students/delete/' + ${student.id}}">Delete</a>
+<a href="/students">Back to List</a>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Group Not Found</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="logo">
+    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a th:href="@{/}">Main</a></li>
+            <li><a th:href="@{/teachers}">Teachers</a></li>
+            <li><a th:href="@{/groups}">Groups</a></li>
+            <li><a th:href="@{/students}">Students</a></li>
+            <li><a th:href="@{/road/graph}">Road</a></li>
+        </ul>
+    </nav>
+</header>
+<h1>Group Not Found</h1>
+<p>The requested group was not found.</p>
+<a th:href="@{/groups}">Back to List</a>
+</body>
+</html>

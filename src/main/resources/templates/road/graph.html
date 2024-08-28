@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+    <style>
+        #graph-container {
+            width: 100%;
+            height: 600px;
+            border: 1px solid lightgray;
+            margin-bottom: 20px;
+        }
+        #max-flow {
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <div class="logo">
+    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a th:href="@{/}">Main</a></li>
+            <li><a th:href="@{/teachers}">Teachers</a></li>
+            <li><a th:href="@{/groups}">Groups</a></li>
+            <li><a th:href="@{/students}">Students</a></li>
+            <li><a th:href="@{/road/graph}">Road</a></li>
+
+        </ul>
+    </nav>
+</header>
+<h1>Number of students who will reach the building</h1>
+
+<div id="initial-input">
+    <form id="vertex-form">
+        <label for="num-vertices">Number of buildings (including source and sink):</label>
+        <input type="number" id="num-vertices" name="num-vertices" min="2" required>
+        <br><br>
+        <label for="source">Source building:</label>
+        <input type="number" id="source" name="source" min="1" required>
+        <br><br>
+        <label for="sink">Sink building:</label>
+        <input type="number" id="sink" name="sink" min="1" required>
+        <br><br>
+        <button type="button" onclick="setupEdges()">Next</button>
+    </form>
+</div>
+
+<div id="edge-input" class="hidden">
+    <form id="edges-form">
+        <h3>Enter edges</h3>
+        <div id="edges-container">
+            <div>
+                <label for="from-1">From:</label>
+                <input type="number" id="from-1" name="from-1" min="1" required>
+                <label for="to-1">To:</label>
+                <input type="number" id="to-1" name="to-1" min="1" required>
+                <label for="capacity-1">Capacity:</label>
+                <input type="number" id="capacity-1" name="capacity-1" min="1" required>
+            </div>
+        </div>
+        <button type="button" onclick="addEdge()">Add another edge</button>
+        <br><br>
+        <button type="button" onclick="visualizeGraph()">Visualize Graph</button>
+    </form>
+</div>
+
+<div id="graph-container"></div>
+<button id="calculate-button" class="hidden" onclick="calculateMaxFlow()">Calculate Max Flow</button>
+<p id="max-flow-text" class="hidden">Max number of students: <span id="max-flow"></span></p>
+
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<script>
+    let edgeCount = 1;
+
+    function setupEdges() {
+        const numVertices = document.getElementById('num-vertices').value;
+        const source = document.getElementById('source').value;
+        const sink = document.getElementById('sink').value;
+
+        if (source > numVertices || sink > numVertices || source == sink) {
+            alert("Invalid source or sink vertex.");
+            return;
+        }
+
+        document.getElementById('initial-input').classList.add('hidden');
+        document.getElementById('edge-input').classList.remove('hidden');
+    }
+
+    function addEdge() {
+        edgeCount++;
+        const container = document.getElementById('edges-container');
+        const edgeDiv = document.createElement('div');
+        edgeDiv.innerHTML = `
+            <label for="from-${edgeCount}">From:</label>
+            <input type="number" id="from-${edgeCount}" name="from-${edgeCount}" min="1" required>
+            <label for="to-${edgeCount}">To:</label>
+            <input type="number" id="to-${edgeCount}" name="to-${edgeCount}" min="1" required>
+            <label for="capacity-${edgeCount}">Capacity:</label>
+            <input type="number" id="capacity-${edgeCount}" name="capacity-${edgeCount}" min="1" required>
+        `;
+        container.appendChild(edgeDiv);
+    }
+
+    function visualizeGraph() {
+        const nodes = [];
+        const edges = [];
+
+        const numVertices = document.getElementById('num-vertices').value;
+        for (let i = 1; i <= numVertices; i++) {
+            nodes.push({ id: i, label: 'Building ' + i });
+        }
+
+        for (let i = 1; i <= edgeCount; i++) {
+            const from = document.getElementById(`from-${i}`).value;
+            const to = document.getElementById(`to-${i}`).value;
+            const capacity = document.getElementById(`capacity-${i}`).value;
+            edges.push({ from: parseInt(from), to: parseInt(to), label: ' ' + capacity });
+        }
+
+        const container = document.getElementById('graph-container');
+        const data = {
+            nodes: new vis.DataSet(nodes),
+            edges: new vis.DataSet(edges)
+        };
+        const options = {};
+        new vis.Network(container, data, options);
+
+        document.getElementById('graph-container').style.display = 'block';
+        document.getElementById('calculate-button').classList.remove('hidden');
+    }
+
+    function calculateMaxFlow() {
+        const numVertices = document.getElementById('num-vertices').value;
+        const source = document.getElementById('source').value;
+        const sink = document.getElementById('sink').value;
+        const edges = [];
+
+        for (let i = 1; i <= edgeCount; i++) {
+            const from = document.getElementById(`from-${i}`).value;
+            const to = document.getElementById(`to-${i}`).value;
+            const capacity = document.getElementById(`capacity-${i}`).value;
+            edges.push({ from: parseInt(from), to: parseInt(to), capacity: parseInt(capacity) });
+        }
+
+        fetch('/road/calculateMaxFlow', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ numVertices, source, sink, edges })
+        })
+
+                .then(response => response.json())
+            .then(data => {
+                document.getElementById('max-flow-text').classList.remove('hidden');
+                document.getElementById('max-flow').textContent = data;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+</body>
+</html>

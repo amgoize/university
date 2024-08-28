@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of Teachers</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="logo">
+    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a th:href="@{/}">Main</a></li>
+            <li><a th:href="@{/teachers}">Teachers</a></li>
+            <li><a th:href="@{/groups}">Groups</a></li>
+            <li><a th:href="@{/students}">Students</a></li>
+            <li><a th:href="@{/road/graph}">Road</a></li>
+        </ul>
+    </nav>
+</header>
+<h1>List of Teachers</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Patronymic</th>
+        <th>Group</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="teacher : ${teachers}">
+        <td th:text="${teacher.id}"></td>
+        <td th:text="${teacher.name}"></td>
+        <td th:text="${teacher.surname}"></td>
+        <td th:text="${teacher.patronymic}"></td>
+        <td th:text="${teacher.group}"></td>
+        <td>
+            <a th:href="@{'/teachers/' + ${teacher.id}}">Details</a>
+            <a th:href="@{'/teachers/update/' + ${teacher.id}}">Edit</a>
+            <a th:href="@{'/teachers/delete/' + ${teacher.id}}" onclick="return confirm('Are you sure?');">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/teachers/create">Create New Teacher</a>
+</body>
+</html>
